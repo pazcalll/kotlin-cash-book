@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 class DBHelper(context: Context?) :
     SQLiteOpenHelper(context, "cash_book.db", null, 1) {
@@ -47,7 +48,7 @@ class DBHelper(context: Context?) :
         contentValues.put("username", username)
         contentValues.put("password", password)
         var insert : Long = db.insert("user", null, contentValues)
-        return insert == -1L
+        return insert != -1L || insert != 0L
     }
 
     // login check
