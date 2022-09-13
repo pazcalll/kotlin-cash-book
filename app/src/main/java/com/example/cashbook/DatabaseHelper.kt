@@ -13,7 +13,7 @@ class DBHelper(context: Context?) :
         if (db != null) {
             db.execSQL("CREATE TABLE session(id integer PRIMARY KEY, login text)")
             db.execSQL("CREATE TABLE user(id integer PRIMARY KEY AUTOINCREMENT, username text, password text)")
-            db.execSQL("CREATE TABLE money(id integer PRIMARY KEY AUTOINCREMENT, userid integer, activity text, amount biginteger, datetime default current_timestamp)")
+            db.execSQL("CREATE TABLE money(id integer PRIMARY KEY AUTOINCREMENT, userid integer, note text, activity text, amount biginteger, datetime timestamp)")
             db.execSQL("INSERT INTO session(id, login) VALUES(1, 'kosong')")
         }
     }
