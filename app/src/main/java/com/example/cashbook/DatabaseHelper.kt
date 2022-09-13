@@ -13,6 +13,7 @@ class DBHelper(context: Context?) :
         if (db != null) {
             db.execSQL("CREATE TABLE session(id integer PRIMARY KEY, login text)")
             db.execSQL("CREATE TABLE user(id integer PRIMARY KEY AUTOINCREMENT, username text, password text)")
+            db.execSQL("CREATE TABLE money(id integer PRIMARY KEY AUTOINCREMENT, userid integer, activity text, amount biginteger, datetime default current_timestamp)")
             db.execSQL("INSERT INTO session(id, login) VALUES(1, 'kosong')")
         }
     }
@@ -21,6 +22,7 @@ class DBHelper(context: Context?) :
         if (db != null) {
             db.execSQL("DROP TABLE IF EXISTS session")
             db.execSQL("DROP TABLE IF EXISTS user")
+            db.execSQL("DROP TABLE IF EXISTS money")
             onCreate(db)
         }
     }
@@ -32,7 +34,7 @@ class DBHelper(context: Context?) :
         return cursor.count > 0
     }
 
-    // upgradesession
+    // uopdate session
     fun upgradeSession(sessionValues : String, id: Int) : Boolean {
         var db : SQLiteDatabase = this.writableDatabase
         var contentValues : ContentValues = ContentValues()
