@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Cash Book</string>
+    <string name="change_password"><u><b>Ganti Password</b></u></string>
 </resources>

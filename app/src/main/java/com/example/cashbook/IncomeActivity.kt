@@ -8,11 +8,13 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
 
 class IncomeActivity : AppCompatActivity() {
+    lateinit var db : DBHelper
     lateinit var dateSelector : EditText
     lateinit var back : Button
     lateinit var submit : Button
@@ -22,6 +24,7 @@ class IncomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_income)
 
+        db = DBHelper(this)
         back = findViewById(R.id.back)
         submit = findViewById(R.id.submit_pemasukan)
         dateSelector = findViewById(R.id.selector_date)
@@ -57,9 +60,18 @@ class IncomeActivity : AppCompatActivity() {
             Log.i("cash", dateSelector.text.toString())
             amount = findViewById(R.id.amount)
             note = findViewById(R.id.note)
-            val amount_money = amount.text
-            val note_additional = note.text
 
+            val amount_money = amount.text.toString()
+            val note_additional = note.text.toString()
+            val date = dateSelector.text.toString()
+            val getUser = db.getSession()
+            if (getUser.moveToFirst()){
+                var userid = Integer.parseInt(getUser.getString(2))
+                var status = db.saveAmount(userid, "add", note_additional, Integer.parseInt(amount_money), date)
+                if (status == true) Toast.makeText(applicationContext, "Data Berhasil Disimpan", Toast.LENGTH_SHORT).show()
+                else Toast.makeText(applicationContext, "Aksi Gagal", Toast.LENGTH_SHORT).show()
+            }
+            onBackPressed()
         })
     }
 

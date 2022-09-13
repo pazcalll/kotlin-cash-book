@@ -74,7 +74,7 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", nu
     }
 
 //    save income
-    fun saveAmount(userid: Int, activity: String, note: String, amount: Int, date: String) {
+    fun saveAmount(userid: Int, activity: String, note: String, amount: Int, date: String): Boolean {
         var db = this.readableDatabase
         var contentValues : ContentValues = ContentValues()
         contentValues.put("userid", userid)
@@ -83,5 +83,6 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", nu
         contentValues.put("amount", amount)
         contentValues.put("datetime", date)
         var cursor = db.insert("money", null, contentValues)
+        return cursor == 1L || cursor != 0L
     }
 }

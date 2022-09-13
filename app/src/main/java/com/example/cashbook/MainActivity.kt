@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var db : DBHelper
     lateinit var logout: Button
     lateinit var add_money: LinearLayout
+    lateinit var setting_money : LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         db = DBHelper(this)
         logout = findViewById(R.id.logout)
         add_money = findViewById(R.id.money_add)
+        setting_money = findViewById(R.id.setting)
 
         val checkSession : Boolean = db.sessionCheck("ada")
         if (checkSession == false) {
@@ -42,6 +44,12 @@ class MainActivity : AppCompatActivity() {
         add_money.setOnClickListener(View.OnClickListener {
             var addMoneyIntent = Intent(this@MainActivity, IncomeActivity::class.java)
             startActivity(addMoneyIntent)
+            finish()
+        })
+
+        setting_money.setOnClickListener(View.OnClickListener {
+            var settingIntent = Intent(this@MainActivity, SettingActivity::class.java)
+            startActivity(settingIntent)
             finish()
         })
     }

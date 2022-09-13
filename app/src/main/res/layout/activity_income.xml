@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10pt"
+            android:textColor="#44FF00"
             android:text="Tambah Pemasukan"
             android:layout_marginBottom="20dp"
     />
@@ -46,12 +47,25 @@
                 android:src="@drawable/calendar"
         />
     </LinearLayout>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nominal:"
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_marginTop="10dp"
-    />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nominal:"
+                android:layout_marginRight="20dp"
+        />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#595959"
+                android:text="Rp. "
+                android:id="@+id/str_amount"
+        />
+    </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
