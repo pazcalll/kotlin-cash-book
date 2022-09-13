@@ -5,16 +5,14 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 
-class DBHelper(context: Context?) :
-    SQLiteOpenHelper(context, "cash_book.db", null, 1) {
+class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
         if (db != null) {
-            db.execSQL("CREATE TABLE session(id integer PRIMARY KEY, login text)")
+            db.execSQL("CREATE TABLE session(id integer PRIMARY KEY, login text, userid integer)")
             db.execSQL("CREATE TABLE user(id integer PRIMARY KEY AUTOINCREMENT, username text, password text)")
             db.execSQL("CREATE TABLE money(id integer PRIMARY KEY AUTOINCREMENT, userid integer, note text, activity text, amount biginteger, datetime timestamp)")
-            db.execSQL("INSERT INTO session(id, login) VALUES(1, 'kosong')")
+            db.execSQL("INSERT INTO session(id, login, userid) VALUES(1, 'kosong', 0)")
         }
     }
 
@@ -34,11 +32,26 @@ class DBHelper(context: Context?) :
         return cursor.count > 0
     }
 
+//    get session
+    fun getSession() : Cursor {
+        var db : SQLiteDatabase = this.readableDatabase
+        var cursor : Cursor = db.rawQuery("SELECT * FROM session where login = 'ada'", null)
+
+        return cursor
+    }
+
+    //    get user
+    fun getUser(strUsername: String, strPassword: String): Cursor {
+        var db: SQLiteDatabase = this.readableDatabase
+        return db.rawQuery("SELECT * FROM user where username = '$strUsername' and password = '$strPassword'", null)
+    }
+
     // uopdate session
-    fun upgradeSession(sessionValues : String, id: Int) : Boolean {
+    fun upgradeSession(sessionValues : String, id: Int, userid : Int) : Boolean {
         var db : SQLiteDatabase = this.writableDatabase
         var contentValues : ContentValues = ContentValues()
         contentValues.put("login", sessionValues)
+        contentValues.put("userid", userid)
         var update : Int = db.update("session", contentValues, "id="+id, null)
         return update != -1
     }
@@ -58,5 +71,17 @@ class DBHelper(context: Context?) :
         var db : SQLiteDatabase = this.readableDatabase
         var cursor : Cursor = db.rawQuery("SELECT * FROM user WHERE username = ? AND password = ?", arrayOf<String>(username, password))
         return cursor.count > 0
+    }
+
+//    save income
+    fun saveAmount(userid: Int, activity: String, note: String, amount: Int, date: String) {
+        var db = this.readableDatabase
+        var contentValues : ContentValues = ContentValues()
+        contentValues.put("userid", userid)
+        contentValues.put("note", note)
+        contentValues.put("activity", activity)
+        contentValues.put("amount", amount)
+        contentValues.put("datetime", date)
+        var cursor = db.insert("money", null, contentValues)
     }
 }

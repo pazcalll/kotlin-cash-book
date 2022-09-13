@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         logout.setOnClickListener(View.OnClickListener {
-            var updateSession : Boolean = db.upgradeSession("kosong", 1)
+            var updateSession : Boolean = db.upgradeSession("kosong", 1, 0)
             if (updateSession == true) {
                 Toast.makeText(applicationContext, "Berhasil Keluar", Toast.LENGTH_SHORT).show()
                 val loginIntent : Intent = Intent(this@MainActivity, LoginActivity::class.java)

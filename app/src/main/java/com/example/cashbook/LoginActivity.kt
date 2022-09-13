@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import java.lang.Integer.parseInt
 
 class LoginActivity : AppCompatActivity() {
     lateinit var db : DBHelper
@@ -39,9 +40,13 @@ class LoginActivity : AppCompatActivity() {
             val strPassword : String = password.text.toString()
 
             val masuk : Boolean = db.checkLogin(strUsername, strPassword)
-            Log.i("cash", masuk.toString())
+            val getUser = db.getUser(strUsername, strPassword)
+            var id : Int = 0
+            if (getUser.moveToFirst()){
+                id = parseInt(getUser.getString(0))
+            }
             if (masuk == true) {
-                val updateSession  = db.upgradeSession("ada", 1)
+                val updateSession  = db.upgradeSession("ada", 1, id)
                 if (updateSession == true) {
                     Toast.makeText(applicationContext, "Berhasil Masuk", Toast.LENGTH_SHORT).show()
                     val mainIntent = Intent(this@LoginActivity, MainActivity::class.java)
