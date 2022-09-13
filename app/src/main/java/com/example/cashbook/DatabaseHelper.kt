@@ -85,4 +85,14 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", nu
         var cursor = db.insert("money", null, contentValues)
         return cursor == 1L || cursor != 0L
     }
+
+    fun getAmount(userid: Int, activity: String) : Int {
+        var db = this.readableDatabase
+        var cursor = db.rawQuery("SELECT * FROM money WHERE userid = $userid and activity = '$activity'", null)
+        var res = 0
+        while (cursor.moveToNext()){
+            res += Integer.parseInt(cursor.getString(4))
+        }
+        return res
+    }
 }
