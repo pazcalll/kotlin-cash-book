@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var db : DBHelper
     lateinit var logout: Button
     lateinit var add_money: LinearLayout
+    lateinit var subtract_money: LinearLayout
     lateinit var setting_money : LinearLayout
     lateinit var subtract : TextView
     lateinit var add : TextView
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         db = DBHelper(this)
         logout = findViewById(R.id.logout)
         add_money = findViewById(R.id.money_add)
+        subtract_money = findViewById(R.id.money_subtract)
         setting_money = findViewById(R.id.setting)
         subtract = findViewById(R.id.pengeluaran)
         add = findViewById(R.id.pemasukan)
@@ -50,6 +52,8 @@ class MainActivity : AppCompatActivity() {
 
         addMoney()
 
+        subtractMoney()
+
         settingMoney()
     }
 
@@ -71,7 +75,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(addMoneyIntent)
             finish()
         })
+    }
 
+    fun subtractMoney() {
+        subtract_money.setOnClickListener(View.OnClickListener {
+            var subtractMoneyIntent = Intent(this@MainActivity, SpendingActivity::class.java)
+            startActivity(subtractMoneyIntent)
+            finish()
+        })
     }
 
     fun settingMoney() {

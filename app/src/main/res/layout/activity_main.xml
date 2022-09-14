@@ -117,13 +117,13 @@
                     android:orientation="vertical"
                     android:gravity="center"
                     android:clickable="true"
+                    android:id="@+id/money_subtract"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                 <ImageView
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         app:srcCompat="@drawable/subtract_money"
-                        android:id="@+id/money_subtract"
                         />
                 <TextView
                         android:layout_width="wrap_content"

@@ -58,4 +58,10 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(parentActivityIntent)
+        finish()
+    }
 }
