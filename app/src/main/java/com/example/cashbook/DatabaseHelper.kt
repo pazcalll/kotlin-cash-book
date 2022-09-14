@@ -96,6 +96,12 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", nu
         return res
     }
 
+    fun getUserTransaction(userid: Int) :Cursor {
+        var db = this.readableDatabase
+        var cursor = db.rawQuery("SELECT * FROM money WHERE userid = $userid", null)
+        return cursor
+    }
+
     fun changePassword(userid: Int, pw_old: String, pw_new: String) : Boolean {
         var db = this.readableDatabase
         var cursor = db.rawQuery("SELECT * FROM user WHERE id = $userid and password = '$pw_old'", null)
@@ -107,4 +113,5 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", nu
         }
         return false
     }
+
 }

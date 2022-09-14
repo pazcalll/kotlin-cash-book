@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var add_money: LinearLayout
     lateinit var subtract_money: LinearLayout
     lateinit var setting_money : LinearLayout
+    lateinit var detail_money : LinearLayout
     lateinit var subtract : TextView
     lateinit var add : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         add_money = findViewById(R.id.money_add)
         subtract_money = findViewById(R.id.money_subtract)
         setting_money = findViewById(R.id.setting)
+        detail_money = findViewById(R.id.info_money)
         subtract = findViewById(R.id.pengeluaran)
         add = findViewById(R.id.pemasukan)
 
@@ -47,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         getIncome(user_id)
 
         getSubtract(user_id)
+
+        getInfo()
 
         logout()
 
@@ -93,13 +97,21 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    fun getInfo() {
+        detail_money.setOnClickListener(View.OnClickListener {
+            var detailIntent = Intent(this@MainActivity, FlowActivity::class.java)
+            startActivity(detailIntent)
+            finish()
+        })
+    }
+
     fun getIncome(user_id:Int) {
         val user_amount = db.getAmount(user_id, "add")
         var length = user_amount.toString().length
         var user_amount_string = ""
         for (i in length downTo 1) {
             if (i % 3 == 0){
-                user_amount_string = user_amount_string + "."
+                if (i != length) user_amount_string = user_amount_string + "."
                 user_amount_string = user_amount_string + user_amount.toString()[length-(i-1)-1]
             }
             else if(length-i >= 0) {

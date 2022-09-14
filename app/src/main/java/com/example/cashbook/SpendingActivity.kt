@@ -24,11 +24,14 @@ class SpendingActivity : AppCompatActivity() {
 
         varSetting()
 
+        back()
+
         calendarDialog()
 
         submitPengeluaran()
     }
     fun varSetting () {
+        back = findViewById(R.id.back)
         dateSelector = findViewById(R.id.selector_date)
         amount = findViewById(R.id.amount)
         note = findViewById(R.id.note)
@@ -79,6 +82,13 @@ class SpendingActivity : AppCompatActivity() {
                 else Toast.makeText(applicationContext, "Aksi Gagal", Toast.LENGTH_SHORT).show()
             }
             onBackPressed()
+        })
+    }
+
+    fun back() {
+        back.setOnClickListener(View.OnClickListener {
+            startActivity(parentActivityIntent)
+            finish()
         })
     }
 

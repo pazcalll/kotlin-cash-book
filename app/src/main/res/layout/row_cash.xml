@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:gravity="center|start"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:layout_marginRight="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+                android:textSize="10pt"
+                android:id="@+id/row_title"
+                android:text="Title"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:textSize="7pt"
+                android:id="@+id/row_desc"
+                android:text="Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:textSize="4pt"
+                android:id="@+id/row_date"
+                android:text="Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <ImageView
+            android:paddingRight="10dp"
+            android:layout_marginLeft="-80dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/row_img"
+            android:src="@drawable/sign_up_icon_2"
+    />
+</LinearLayout>

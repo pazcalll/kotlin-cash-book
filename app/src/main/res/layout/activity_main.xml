@@ -93,13 +93,15 @@
                     android:clickable="true"
                     android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/info_money"
+            >
                 <ImageView
                         android:layout_marginBottom="10dp"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         app:srcCompat="@drawable/info_money"
-                        android:id="@+id/info_money"/>
+                        />
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

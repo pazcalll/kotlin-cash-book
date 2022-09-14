@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".FlowActivity">
+
+    <ListView
+            android:layout_marginBottom="55dp"
+            android:id="@+id/cash_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    </ListView>
+
+    <LinearLayout
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:layout_marginTop="-55dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kembali"
+                android:id="@+id/back"
+                android:backgroundTint="@color/yellow"
+        />
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -16,9 +16,13 @@
             android:theme="@style/Theme.CashBook"
             tools:targetApi="31">
         <activity
-                android:name=".SpendingActivity"
+                android:name=".FlowActivity"
                 android:parentActivityName=".MainActivity"
                 android:exported="false"/>
+        <activity
+                android:name=".SpendingActivity"
+                android:exported="false"
+                android:parentActivityName=".MainActivity"/>
         <activity
                 android:name=".SettingActivity"
                 android:exported="false"
