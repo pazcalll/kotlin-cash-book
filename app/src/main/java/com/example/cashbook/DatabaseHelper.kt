@@ -95,4 +95,16 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", nu
         }
         return res
     }
+
+    fun changePassword(userid: Int, pw_old: String, pw_new: String) : Boolean {
+        var db = this.readableDatabase
+        var cursor = db.rawQuery("SELECT * FROM user WHERE id = $userid and password = '$pw_old'", null)
+        if (cursor.count > 0) {
+            var contentValues : ContentValues = ContentValues()
+            contentValues.put("password", pw_new)
+            var update : Int = db.update("user", contentValues, "id="+userid, null)
+            return update == 1
+        }
+        return false
+    }
 }
