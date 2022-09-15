@@ -4,10 +4,13 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
@@ -20,6 +23,7 @@ class IncomeActivity : AppCompatActivity() {
     lateinit var submit : Button
     lateinit var amount : EditText
     lateinit var note : EditText
+    lateinit var strAmount : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_income)
@@ -30,6 +34,8 @@ class IncomeActivity : AppCompatActivity() {
         dateSelector = findViewById(R.id.selector_date)
         dateSelector.setFocusable(false);
         dateSelector.setCursorVisible(false);
+        amount = findViewById(R.id.amount)
+        strAmount = findViewById(R.id.str_amount)
 
         back.setOnClickListener(View.OnClickListener {
             onBackPressed()
@@ -54,6 +60,29 @@ class IncomeActivity : AppCompatActivity() {
                 }, year, month, day
             )
             dialog.show()
+        })
+
+        amount.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                var user_amount = amount.text.toString()
+                var length = user_amount.length
+                var user_amount_string = ""
+                for (i in length downTo 1) {
+                    if (i % 3 == 0){
+                        if (i != length) user_amount_string = user_amount_string + "."
+                        user_amount_string = user_amount_string + user_amount[length-(i-1)-1]
+                    }
+                    else if(length-i >= 0) {
+                        user_amount_string = user_amount_string + user_amount[length-(i-1)-1]
+                    }
+                }
+                if (user_amount_string == "") strAmount.setText("Rp. 0")
+                else strAmount.setText("Rp. "+user_amount_string)
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
         })
 
         submit.setOnClickListener(View.OnClickListener {

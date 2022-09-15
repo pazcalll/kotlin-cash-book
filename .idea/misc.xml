@@ -4,15 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_flow.xml" value="0.25" />
-        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_income.xml" value="0.33" />
+        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_flow.xml" value="0.1" />
+        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_income.xml" value="0.22" />
         <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_login.xml" value="0.1" />
-        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_main.xml" value="0.20423728813559322" />
+        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_register.xml" value="0.17028985507246377" />
-        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_setting.xml" value="0.25" />
+        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_setting.xml" value="0.22" />
         <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/activity_spending.xml" value="0.12552083333333333" />
-        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/row_cash.xml" value="0.25" />
+        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/layout/row_cash.xml" value="0.1" />
         <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Lamaran Kerja/Portfolio/Android/CashBook/app/src/main/res/xml/line_point_formatter_with_labels.xml" value="0.1" />
       </map>
     </option>
   </component>

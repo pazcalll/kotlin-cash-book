@@ -1,16 +1,21 @@
 package com.example.cashbook
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.androidplot.xy.LineAndPointFormatter
+import com.androidplot.xy.SimpleXYSeries
+import com.androidplot.xy.XYPlot
+import com.androidplot.xy.XYSeries
 import java.lang.Integer.parseInt
-import kotlin.jvm.internal.Reflection.function
+import java.math.BigInteger
+import java.text.SimpleDateFormat
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var detail_money : LinearLayout
     lateinit var subtract : TextView
     lateinit var add : TextView
+    lateinit var plot : XYPlot
+
+    var user_id = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         detail_money = findViewById(R.id.info_money)
         subtract = findViewById(R.id.pengeluaran)
         add = findViewById(R.id.pemasukan)
+        plot = findViewById(R.id.plot)
 
         val checkSession : Boolean = db.sessionCheck("ada")
         if (checkSession == false) {
@@ -42,10 +51,11 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         val session = db.getSession()
-        var user_id = 0
         if (session.moveToFirst()){
             user_id = parseInt(session.getString(session.getColumnIndex("userid")))
         }
+        plotMaker()
+
         getIncome(user_id)
 
         getSubtract(user_id)
@@ -137,5 +147,31 @@ class MainActivity : AppCompatActivity() {
         }
         if (user_amount_string == "") subtract.setText("0")
         else subtract.setText(user_amount_string)
+    }
+
+    fun plotMaker() {
+        val domainLabels = arrayOf<String>("Pemasukan", "Pengeluaran")
+        var listAdd = mutableListOf<BigInteger>()
+        var listSubtract = mutableListOf<BigInteger>()
+
+        val userTransaction = db.getUserTransaction(user_id)
+        while (userTransaction.moveToNext()){
+            if (SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).month == 8){
+                if (userTransaction.getString(3).equals("add")) listAdd.add(BigInteger(userTransaction.getString(4))/ BigInteger("100"))
+                else if(userTransaction.getString(3).equals("subtract")) listSubtract.add(BigInteger(userTransaction.getString(4))/ BigInteger("100"))
+            }
+        }
+        val xVals = mutableListOf<Number>()
+//        for (i in 1 .. 31) {
+//            xVals.add(i)
+//        }
+        val series1: XYSeries = SimpleXYSeries(
+            listAdd, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Pemasukan"
+        )
+        val series2: XYSeries = SimpleXYSeries(
+            listSubtract, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Pengeluaran"
+        )
+        plot.addSeries(series1, LineAndPointFormatter(Color.GREEN, Color.GREEN, null, null))
+        plot.addSeries(series2, LineAndPointFormatter(Color.RED, Color.RED, null, null))
     }
 }

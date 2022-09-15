@@ -4,15 +4,19 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import java.util.*
 
 class SpendingActivity : AppCompatActivity() {
     lateinit var amount : EditText
+    lateinit var strAmount : TextView
     lateinit var dateSelector : EditText
     lateinit var note : EditText
     lateinit var submit_pengeluaran : Button
@@ -24,6 +28,8 @@ class SpendingActivity : AppCompatActivity() {
 
         varSetting()
 
+        onAmountInput()
+
         back()
 
         calendarDialog()
@@ -34,6 +40,7 @@ class SpendingActivity : AppCompatActivity() {
         back = findViewById(R.id.back)
         dateSelector = findViewById(R.id.selector_date)
         amount = findViewById(R.id.amount)
+        strAmount = findViewById(R.id.str_amount)
         note = findViewById(R.id.note)
         submit_pengeluaran = findViewById(R.id.submit_pengeluaran)
         db = DBHelper(this)
@@ -62,6 +69,31 @@ class SpendingActivity : AppCompatActivity() {
             }, year, month, day
             )
             dialog.show()
+        })
+    }
+
+    fun onAmountInput() {
+        amount.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                var user_amount = amount.text.toString()
+                var length = user_amount.length
+                var user_amount_string = ""
+                for (i in length downTo 1) {
+                    if (i % 3 == 0){
+                        if (i != length) user_amount_string = user_amount_string + "."
+                        user_amount_string = user_amount_string + user_amount[length-(i-1)-1]
+                    }
+                    else if(length-i >= 0) {
+                        user_amount_string = user_amount_string + user_amount[length-(i-1)-1]
+                    }
+                }
+                if (user_amount_string == "") strAmount.setText("Rp. 0")
+                else strAmount.setText("Rp. "+user_amount_string)
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
         })
     }
 
