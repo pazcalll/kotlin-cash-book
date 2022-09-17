@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.androidplot.xy.*
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -20,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class MainActivity : AppCompatActivity() {
     lateinit var db : DBHelper
     lateinit var logout: Button
     lateinit var add_money: LinearLayout
@@ -29,8 +28,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     lateinit var detail_money : LinearLayout
     lateinit var subtract : TextView
     lateinit var add : TextView
-    lateinit var plot : XYPlot
     lateinit var spinner : Spinner
+    lateinit var spinner2 : Spinner
+    lateinit var filter : Button
     lateinit var mpchart : LineChart
 
     var user_id = 0
@@ -46,8 +46,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         detail_money = findViewById(R.id.info_money)
         subtract = findViewById(R.id.pengeluaran)
         add = findViewById(R.id.pemasukan)
-//        plot = findViewById(R.id.plot)
         spinner = findViewById(R.id.spinner)
+        spinner2 = findViewById(R.id.spinner2)
+        filter = findViewById(R.id.filter)
         mpchart = findViewById(R.id.mpchart)
 
         val checkSession : Boolean = db.sessionCheck("ada")
@@ -60,9 +61,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if (session.moveToFirst()){
             user_id = parseInt(session.getString(session.getColumnIndex("userid")))
         }
-//        plotMaker()
 
-        makeSpinner()
+        spinner1()
+
+        spinner2()
+
+        filter()
 
         getInfo()
 
@@ -73,6 +77,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         subtractMoney()
 
         settingMoney()
+
+        filter.performClick()
     }
 
     fun logout() {
@@ -119,8 +125,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         })
     }
 
-    fun getIncome(user_id:Int, month:Int) {
-        val user_amount = db.getAmount(user_id, "add", month)
+    fun getIncome(user_id:Int, month:Int, year: Int) {
+        val user_amount = db.getAmount(user_id, "add", month, year)
         var length = user_amount.toString().length
         var user_amount_string = ""
         for (i in length downTo 1) {
@@ -136,8 +142,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         else add.setText(user_amount_string)
     }
 
-    fun getSubtract(user_id: Int, month: Int) {
-        val user_amount = db.getAmount(user_id, "subtract", month)
+    fun getSubtract(user_id: Int, month: Int, year: Int) {
+        val user_amount = db.getAmount(user_id, "subtract", month, year)
         var length = user_amount.toString().length
         var user_amount_string = ""
         for (i in length downTo 1) {
@@ -153,87 +159,47 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         else subtract.setText(user_amount_string)
     }
 
-    fun plotMaker() {
-//        var listAdd = mutableListOf<BigInteger>()
-//        var listSubtract = mutableListOf<BigInteger>()
-//
-//        val userTransaction = db.getUserTransaction(user_id)
-//        for (i in 0 .. 31) {
-//            listAdd.add(BigInteger("0"))
-//            listSubtract.add(BigInteger("0"))
-//        }
-//        while (userTransaction.moveToNext()){
-//            if (SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).month == spinner.selectedItemPosition-1){
-//                println(SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).month)
-//                if (userTransaction.getString(3).equals("add")) {
-//                    if (listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date] == BigInteger("0"))
-//                        listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date] = BigInteger(userTransaction.getString(4))
-//                    else
-//                        listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date] += BigInteger(userTransaction.getString(4))
-//                }
-//                else if(userTransaction.getString(3).equals("subtract")) {
-//                    if (listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date] == BigInteger("0"))
-//                        listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date] = BigInteger(userTransaction.getString(4))
-//                    else
-//                        listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date] += BigInteger(userTransaction.getString(4))
-//                }
-//            }
-//        }
-//        val xVals = mutableListOf<Number>()
-//        for (i in 0 .. 31) {
-//            xVals.add(0)
-//        }
-//        val series1: XYSeries = SimpleXYSeries(listAdd, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Pemasukan")
-//        val series2: XYSeries = SimpleXYSeries(listSubtract, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Pengeluaran")
-//
-//        plot.addSeries(series1, LineAndPointFormatter(Color.GREEN, Color.GREEN, null, PointLabelFormatter(Color.WHITE)))
-//        plot.addSeries(series2, LineAndPointFormatter(Color.RED, Color.RED, null, PointLabelFormatter(Color.WHITE)))
-//        plot.setDomainBoundaries(1, 31, BoundaryMode.FIXED );
-    }
-
-    fun makeSpinner() {
+    fun spinner1() {
         val adapter : ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(this, R.array.months, com.google.android.material.R.layout.support_simple_spinner_dropdown_item)
         adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)
         spinner.adapter = adapter
-        spinner.onItemSelectedListener = this
         val calendar = Calendar.getInstance()
         val month = calendar.get(Calendar.MONTH)
-        spinner.setSelection(month+1)
-        plotMaker()
-        mpChartMake()
+        spinner.setSelection(month)
     }
 
     fun mpChartMake() {
         mpchart.clear()
-        mpchart.notifyDataSetChanged();
+        mpchart.notifyDataSetChanged()
         mpchart.invalidate()
 
         var listAdd = arrayListOf<Entry>()
         var listSubtract = arrayListOf<Entry>()
 
-        val userTransaction = db.getUserTransaction(user_id)
+        val userTransaction = db.getUserTransaction(user_id, spinner.selectedItemPosition, spinner2.selectedItem.toString().toInt())
         for (i in 0 .. 31) {
             listAdd.add(Entry(i.toFloat(), 0F))
             listSubtract.add(Entry(i.toFloat(), 0F))
         }
         while (userTransaction.moveToNext()){
-            if (SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).month == spinner.selectedItemPosition-1){
+            var transactionDate = SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5))
+            if (transactionDate.month == spinner.selectedItemPosition){
                 if (userTransaction.getString(3).equals("add")) {
-                    var tmpAdd = listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date]
+                    var tmpAdd = listAdd[transactionDate.date]
                     if (tmpAdd.y == 0F)
-                        listAdd.set(SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date, Entry(tmpAdd.x, userTransaction.getString(4).toFloat()))
+                        listAdd.set(transactionDate.date, Entry(tmpAdd.x, userTransaction.getString(4).toFloat()))
                     else
-                        listAdd.set(SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date, Entry(tmpAdd.x, userTransaction.getString(4).toFloat()+tmpAdd.y))
+                        listAdd.set(transactionDate.date, Entry(tmpAdd.x, userTransaction.getString(4).toFloat()+tmpAdd.y))
                 }
                 else if(userTransaction.getString(3).equals("subtract")) {
-                    if (listSubtract[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date].y == 0F)
-                        listSubtract[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date].y = userTransaction.getString(4).toFloat()
+                    if (listSubtract[transactionDate.date].y == 0F)
+                        listSubtract[transactionDate.date].y = userTransaction.getString(4).toFloat()
                     else
-                        listSubtract[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date].y += userTransaction.getString(4).toFloat()
+                        listSubtract[transactionDate.date].y += userTransaction.getString(4).toFloat()
                 }
             }
-            println(SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).month == spinner.selectedItemPosition)
-            println(SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).month)
+            println(transactionDate.month == spinner.selectedItemPosition)
+            println(transactionDate.month)
             println(spinner.selectedItemPosition)
         }
         val lineAdd = LineDataSet(listAdd, "Pemasukan")
@@ -254,14 +220,23 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         mpchart.setBackgroundColor(resources.getColor(R.color.white))
     }
 
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        val text : String = p0?.getItemAtPosition(p2).toString()
-        getIncome(user_id, spinner.selectedItemPosition)
-        getSubtract(user_id, spinner.selectedItemPosition)
-        mpChartMake()
+    fun spinner2() {
+        var tmpSpinner2 = arrayListOf<String>()
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        for (i in 2000 .. 2045){
+            tmpSpinner2.add(i.toString())
+        }
+        var adapterSpinner2 = ArrayAdapter(this, androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item, tmpSpinner2)
+        spinner2.adapter = adapterSpinner2
+        spinner2.setSelection(adapterSpinner2.getPosition(year.toString()))
     }
 
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-
+    fun filter() {
+        filter.setOnClickListener(View.OnClickListener {
+            getIncome(user_id, spinner.selectedItemPosition, spinner2.selectedItem.toString().toInt())
+            getSubtract(user_id, spinner.selectedItemPosition, spinner2.selectedItem.toString().toInt())
+            mpChartMake()
+        })
     }
 }

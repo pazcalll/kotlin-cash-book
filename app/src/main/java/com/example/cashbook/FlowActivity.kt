@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ListView
+import android.widget.Toast
 import com.example.cashbook.adapter.CashAdapter
 import com.example.cashbook.model.Cash
 import java.lang.Integer.parseInt
+import java.util.Calendar
 
 class FlowActivity : AppCompatActivity() {
     lateinit var db : DBHelper
@@ -17,6 +19,10 @@ class FlowActivity : AppCompatActivity() {
     lateinit var back : Button
     var userId : Int = 0
     var list = mutableListOf<Cash>()
+
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flow)
@@ -34,7 +40,8 @@ class FlowActivity : AppCompatActivity() {
     fun listView() {
         if (userSession.moveToFirst()) {
             userId = parseInt(userSession.getString(2))
-            userTransaction = db.getUserTransaction(userId)
+            userTransaction = db.getUserTransactionAllYear(userId)
+            Toast.makeText(applicationContext, "$userId $month", Toast.LENGTH_SHORT).show()
             while (userTransaction.moveToNext()){
                 if (userTransaction.getString(3) == "subtract"){
                     list.add(Cash("(-) "+userTransaction.getString(4), userTransaction.getString(2), R.drawable.sign_down_icon, userTransaction.getString(5)))

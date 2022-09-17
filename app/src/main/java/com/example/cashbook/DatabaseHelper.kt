@@ -86,12 +86,12 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", nu
         return cursor == 1L || cursor != 0L
     }
 
-    fun getAmount(userid: Int, activity: String, month: Int) : Int {
-        var tmpMonth = "0"
-        if (tmpMonth.toInt() >= 10) tmpMonth = month.toString()
-        else tmpMonth = "0"+month.toString()
+    fun getAmount(userid: Int, activity: String, month: Int, year: Int) : Int {
+        var tmpMonth = month.toString()
+        if (tmpMonth.toInt()+1 >= 10) tmpMonth = (month+1).toString()
+        else tmpMonth = "0"+(month+1).toString()
         var db = this.readableDatabase
-        var cursor = db.rawQuery("SELECT * FROM money WHERE userid = $userid and activity = '$activity' and datetime LIKE '%/$tmpMonth/%'", null)
+        var cursor = db.rawQuery("SELECT * FROM money WHERE userid = $userid and activity = '$activity' and datetime LIKE '%/$tmpMonth/$year'", null)
         var res = 0
         while (cursor.moveToNext()){
             res += Integer.parseInt(cursor.getString(4))
@@ -99,7 +99,16 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", nu
         return res
     }
 
-    fun getUserTransaction(userid: Int) :Cursor {
+    fun getUserTransaction(userid: Int, month: Int, year: Int) :Cursor {
+        var db = this.readableDatabase
+        var tmpMonth = month.toString()
+        if (tmpMonth.toInt()+1 >= 10) tmpMonth = (month+1).toString()
+        else tmpMonth = "0"+(month+1).toString()
+        var cursor = db.rawQuery("SELECT * FROM money WHERE userid = $userid and datetime LIKE '%/$tmpMonth/$year'", null)
+        return cursor
+    }
+
+    fun getUserTransactionAllYear(userid: Int) :Cursor {
         var db = this.readableDatabase
         var cursor = db.rawQuery("SELECT * FROM money WHERE userid = $userid", null)
         return cursor

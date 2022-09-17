@@ -46,9 +46,9 @@ class IncomeActivity : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val maxYear = Calendar.getInstance()
-        maxYear.set(2022, 11, 31)
+        maxYear.set(2045, 11, 31)
         val minYear = Calendar.getInstance()
-        minYear.set(2022, 0, 1)
+        minYear.set(2000, 0, 1)
         val dialog = DatePickerDialog(this@IncomeActivity, AlertDialog.THEME_HOLO_DARK,
             DatePickerDialog.OnDateSetListener{ view, year, month,
             dayOfMonth ->
