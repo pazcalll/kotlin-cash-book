@@ -45,20 +45,28 @@ class IncomeActivity : AppCompatActivity() {
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val maxYear = Calendar.getInstance()
+        maxYear.set(2022, 11, 31)
+        val minYear = Calendar.getInstance()
+        minYear.set(2022, 0, 1)
+        val dialog = DatePickerDialog(this@IncomeActivity, AlertDialog.THEME_HOLO_DARK,
+            DatePickerDialog.OnDateSetListener{ view, year, month,
+            dayOfMonth ->
+                var month = month + 1
+                lateinit var date : String
+                if (month < 10) {
+                    date = "$dayOfMonth/0$month/$year"
+                }else{
+                    date = "$dayOfMonth/$month/$year"
+                }
+                dateSelector.setText(date)
+            },
+            year, month, day
+        )
+        dialog.datePicker.minDate = minYear.timeInMillis
+        dialog.datePicker.maxDate = maxYear.timeInMillis
 
         dateSelector.setOnClickListener(View.OnClickListener {
-            val dialog = DatePickerDialog(this@IncomeActivity, AlertDialog.THEME_HOLO_DARK, DatePickerDialog.OnDateSetListener{ view, year, month,
-                    dayOfMonth ->
-                    var month = month + 1
-                    lateinit var date : String
-                    if (month < 10) {
-                        date = "$dayOfMonth/0$month/$year"
-                    }else{
-                        date = "$dayOfMonth/$month/$year"
-                    }
-                    dateSelector.setText(date)
-                }, year, month, day
-            )
             dialog.show()
         })
 

@@ -226,10 +226,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         listAdd.set(SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date, Entry(tmpAdd.x, userTransaction.getString(4).toFloat()+tmpAdd.y))
                 }
                 else if(userTransaction.getString(3).equals("subtract")) {
-                    if (listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date].y == 0F)
-                        listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date].y = userTransaction.getString(4).toFloat()
+                    if (listSubtract[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date].y == 0F)
+                        listSubtract[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date].y = userTransaction.getString(4).toFloat()
                     else
-                        listAdd[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date].y += userTransaction.getString(4).toFloat()
+                        listSubtract[SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).date].y += userTransaction.getString(4).toFloat()
                 }
             }
             println(SimpleDateFormat("d/MM/yyyy").parse(userTransaction.getString(5)).month == spinner.selectedItemPosition)
