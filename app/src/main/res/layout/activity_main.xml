@@ -26,7 +26,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rangkuman Bulan Ini"
+                    android:text="Rangkuman Keuangan"
                     />
 
             <LinearLayout
@@ -68,24 +68,49 @@
                         android:id="@+id/pemasukan"
                 />
             </LinearLayout>
-
             <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
             >
-                <com.androidplot.xy.XYPlot
-                        style="@style/APDefacto.Dark"
-                        android:id="@+id/plot"
-                        android:layout_width="fill_parent"
-                        android:layout_height="220dp"
-                        ap:title="Plot Pemasukan dan Pengeluaran"
-                        ap:rangeTitle="range"
-                        ap:domainTitle="domain"
-                        ap:lineLabels="left|bottom"
-                        ap:lineLabelRotationBottom="-45"/>
+                <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                />
+
             </LinearLayout>
 
+            <HorizontalScrollView
+                    android:layerType="software"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                            android:clickable="true"
+                            android:id="@+id/plotter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                    >
+<!--                        <com.androidplot.xy.XYPlot-->
+<!--                                style="@style/APDefacto.Dark"-->
+<!--                                android:id="@+id/plot"-->
+<!--                                android:layout_width="800dp"-->
+<!--                                android:layout_height="240dp"-->
+<!--                                ap:title="Plot Pemasukan dan Pengeluaran"-->
+<!--                                ap:domainStep = "31"-->
+<!--                                ap:graphPaddingLeft = "35dp"-->
+<!--                                ap:lineLabels="left|bottom"-->
+<!--                                ap:lineLabelRotationBottom="-45"/>-->
+                        <com.github.mikephil.charting.charts.LineChart
+                                android:layout_width="1200dp"
+                                android:layout_height="300dp"
+                                android:id="@+id/mpchart"
+                        />
+                </LinearLayout>
+            </HorizontalScrollView>
             <LinearLayout
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal"

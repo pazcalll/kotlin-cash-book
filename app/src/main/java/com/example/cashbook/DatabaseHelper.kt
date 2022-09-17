@@ -86,9 +86,12 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, "cash_book.db", nu
         return cursor == 1L || cursor != 0L
     }
 
-    fun getAmount(userid: Int, activity: String) : Int {
+    fun getAmount(userid: Int, activity: String, month: Int) : Int {
+        var tmpMonth = "0"
+        if (tmpMonth.toInt() >= 10) tmpMonth = month.toString()
+        else tmpMonth = "0"+month.toString()
         var db = this.readableDatabase
-        var cursor = db.rawQuery("SELECT * FROM money WHERE userid = $userid and activity = '$activity'", null)
+        var cursor = db.rawQuery("SELECT * FROM money WHERE userid = $userid and activity = '$activity' and datetime LIKE '%/$tmpMonth/%'", null)
         var res = 0
         while (cursor.moveToNext()){
             res += Integer.parseInt(cursor.getString(4))

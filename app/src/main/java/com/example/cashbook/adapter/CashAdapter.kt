@@ -20,6 +20,7 @@ class CashAdapter (var mContext: Context, var resources: Int, var items : List<C
         val imageView: ImageView = view.findViewById(R.id.row_img)
         val titleTextView: TextView = view.findViewById(R.id.row_title)
         val descTextView: TextView = view.findViewById(R.id.row_desc)
+        val dateTextView: TextView = view.findViewById(R.id.row_date)
 
         var mItem: Cash = items[position]
         imageView.setImageDrawable(mContext.resources.getDrawable(mItem.img))
@@ -35,6 +36,7 @@ class CashAdapter (var mContext: Context, var resources: Int, var items : List<C
             }
         }
         descTextView.text = mItem.description
+        dateTextView.text = mItem.date
 
         return view
     }
